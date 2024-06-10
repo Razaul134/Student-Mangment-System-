@@ -1,0 +1,52 @@
+
+
+CREATE TABLE IF NOT EXISTS feereport_student (
+    rollno INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    course VARCHAR(255) NOT NULL,
+    fee INT NOT NULL,
+    paid INT NOT NULL,
+    due INT NOT NULL,
+    address VARCHAR(255),
+    city VARCHAR(255),
+    state VARCHAR(255),
+    country VARCHAR(255),
+    contactno VARCHAR(255)
+);
+
+-- Create feereport_accountant table
+CREATE TABLE feereport_accountant (
+    rollno INT PRIMARY KEY,
+    password VARCHAR(25) NOT NULL,
+    email VARCHAR(25) NOT NULL,
+    contactno INT(11) NOT NULL,
+    FOREIGN KEY (rollno) REFERENCES feereport_student(rollno)
+);
+
+CREATE TABLE IF NOT EXISTS feereport_courses (
+    rollno INT,
+    courseCode VARCHAR(8),
+    courseName VARCHAR(20) NOT NULL,
+    courseDuration INT NOT NULL,
+    courseFee INT(8) NOT NULL,
+    PRIMARY KEY (rollno, courseCode),
+    FOREIGN KEY (rollno) REFERENCES feereport_student(rollno)
+);
+
+CREATE TABLE feereport_marks (
+    rollno INT,
+    courseCode VARCHAR(20),
+    subject VARCHAR(50),
+    marks INT(4),
+    PRIMARY KEY (rollno, courseCode, subject),
+    FOREIGN KEY (rollno) REFERENCES feereport_student(rollno),
+    FOREIGN KEY (courseCode) REFERENCES feereport_courses(courseCode)
+);
+
+CREATE TABLE feereport_notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rollno INT,
+    message TEXT,
+    FOREIGN KEY (rollno) REFERENCES feereport_student(rollno)
+);
